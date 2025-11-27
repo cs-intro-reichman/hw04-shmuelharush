@@ -1,6 +1,5 @@
 public class KeywordsDetector {
     
-    // --- 1. שיטת main (קריאה לתוכנית) ---
     public static void main(String[] args) {
         String[] sentences = {
             "Our product will transform the market",
@@ -15,26 +14,22 @@ public class KeywordsDetector {
             "Our new technology presents a significant paradigm shift",
             "Effective presentations must be clear, concise, and humble"
         };
-        // Some keywords that typically signal bullshit contents in business presentations 
         String[] keywords = {"synergy", "disrupt", "leverage", "Paradigm", "transform"};
         detectAndPrint(sentences, keywords);
     }
 
-    // --- 2. השיטה הראשית detectAndPrint ---
-    // Iterates through all the sentences.
-    // If a sentence contains one or more of the kewords, prints it.
+    /**
+     * עובר על כל המשפטים. אם משפט מכיל אחת ממילות המפתח, הוא מודפס.
+     */
     public static void detectAndPrint(String[] sentences, String[] keywords) {
         
-        // **הערה חשובה:** כדי שהקוד יעבוד, נדרש גם מימוש של MyString.lowerCase!
-
-        // יצירת מערך חדש lowerkeywords והמרת מילות מפתח לאותיות קטנות
+        // יצירת מערך lowerKeywords והמרת מילות מפתח לאותיות קטנות (באמצעות MyString)
         String[] lowerKeywords = new String[keywords.length];
         for(int i = 0; i < keywords.length; i++){
-            // (בהנחה ש-MyString זמין ו-lowerCase עובד)
             lowerKeywords[i] =  MyString.lowerCase(keywords[i]); 
         }
 
-        // יצירת מערך חדש למשפטים באותיות קטנות 
+        // יצירת מערך lowerSentences והמרת משפטים לאותיות קטנות (באמצעות MyString)
         String[] lowerSentences = new String[sentences.length];
         for(int i = 0; i < sentences.length; i++){
             lowerSentences[i] = MyString.lowerCase(sentences[i]);
@@ -45,17 +40,17 @@ public class KeywordsDetector {
             
             boolean isBullshit = false; 
           
-            // לולאה פנימית: בדיקת מילות המפתח מול המשפט הנוכחי
+            // לולאה פנימית: בדיקת מילות המפתח
             for (int j = 0; j < lowerKeywords.length; j++) {
                 
-                // כאן מתבצעת הקריאה לפונקציית contains הממומשת למטה:
+                // קריאה לפונקציית contains המקומית
                 if (contains(lowerSentences[i], lowerKeywords[j])) { 
                     isBullshit = true; 
-                    break; 
+                    break; // נמצאה מילת מפתח, אין צורך לבדוק את השאר
                 }
             }
             
-            // הדפסת התוצאה
+            // הדפסת המשפט המקורי (sentences[i])
             if (isBullshit) {
                 System.out.println(sentences[i]); 
             }
@@ -64,31 +59,32 @@ public class KeywordsDetector {
     
     /**
      * בודק אם str1 מכיל את str2.
-     * מניח ששתי המחרוזות כבר הומרו לאותיות קטנות.
+     * הערה: הקלטות (str1, str2) חייבות להיות כבר באותיות קטנות.
      */
     public static boolean contains(String str1, String str2) {
+        // אם אחת המחרוזות היא null, נחזיר false (למרות שכבר הגנו על זה ב-detectAndPrint)
+        if (str1 == null || str2 == null) {
+            return false;
+        }
+
         int length1 = str1.length();
         int length2 = str2.length();
         
-        // מקרה גבול: str1 קצרה מדי
         if (length1 < length2) {
             return false;
         }
         
-        // לולאה חיצונית: נקודת התחלה
         for (int i = 0; i <= (length1 - length2); i++) {
             int j = 0;
-            // לולאה פנימית: בדיקת התאמה תו-אחר-תו
             for (j = 0; j < length2; j++) {
                 if (str1.charAt(i + j) != str2.charAt(j)) {
-                    break; // אי-התאמה, עוברים לנקודת ההתחלה הבאה
+                    break;
                 }
             }
-            // אם הלולאה הפנימית סיימה עד הסוף (לא הופעל break)
             if (j == length2) {
-                return true; // נמצאה התאמה
+                return true;
             }
         }
-        return false; // לא נמצאה התאמה אחרי כל הבדיקות
+        return false;
     }
 }

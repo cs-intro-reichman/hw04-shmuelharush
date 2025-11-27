@@ -1,63 +1,67 @@
 public class MyString {
     public static void main(String[] args) {
-        System.out.println("Testing lowercase:");
-        System.out.println("UnHappy : " + lowerCase("UnHappy"));
-        System.out.println("This costs 15 Sheksls : " + lowerCase("This costs 15 Sheksls"));
-        System.out.println("TLV : " + lowerCase("TLV"));
-        System.out.println("lowercase : " + lowerCase("lowercase"));
-
-        System.out.println("Testing contains:");
-        System.out.println(contains("unhappy", "happy")); // true
-        System.out.println(contains("happy", "unhappy")); // false
-        System.out.println(contains("historical", "story")); // false
-        System.out.println(contains("psychology", "psycho")); // true
-        System.out.println(contains("personality", "son")); // true
-        System.out.println(contains("personality", "dad")); // false
-        System.out.println(contains("resignation", "sign")); // true
+        // ... קוד בדיקה מקומי
     }
 
-  /** Returns the lowercase version of the given string. */
+    /** מחזיר את הגרסה באותיות קטנות של המחרוזת הנתונה. 
+     * מחזיר null אם הקלט הוא null.
+     */
     public static String lowerCase(String str) {
+        
+        if (str == null) {
+            return null;
+        }
 
-        int sum = 0;
-        String lowString="";
+        String lowString = "";
 
-        for (int i=0; i<str.length();i++)
-        {
-            //בודק האן הוא אות גדולה
-            char temp = str.charAt(i);
-            if (temp >= 'A' && temp <= 'Z' ){
-            sum = temp +32;
-            //ממיר את המשתנה שהוא int חזרה לchar
-            char lowerCase = (char)(sum);
+        for (int i = 0; i < str.length(); i++) {
+            char current = str.charAt(i);
 
-            lowString = lowString + lowerCase;}
-            else 
-            {lowString = lowString + temp; }
-
+            // בדיקה האם התו הוא אות גדולה (A-Z)
+            if (current >= 'A' && current <= 'Z') {
+                // המרה לאות קטנה: הוספת 32 לערך ה-ASCII
+                current = (char)(current + 32); 
+            }
+            
+            // הוספת התו המעובד (שהומר או נשאר זהה) למחרוזת החדשה
+            lowString = lowString + current; 
         }
         return lowString;
     }
-    /** If str1 contains str2, returns true; otherwise returns false. */
+
+    /** בודק אם str1 מכילה את str2 (בדיקה לא רגישה לאותיות). */
     public static boolean contains(String str1, String str2) {
+        
+        // יצירת גרסאות באותיות קטנות לטובת בדיקה לא רגישה לגודל אותיות
         String newstr1 = lowerCase(str1);
         String newstr2 = lowerCase(str2);
+        
+        // הגנה מפני קלט null לאחר ההמרה (אם lowerCase החזיר null)
+        if (newstr1 == null || newstr2 == null) {
+            return false;
+        }
+
         int length1 = newstr1.length();
         int length2 = newstr2.length();
-            if(length1 < length2){
-                return false;
-            }
-        for(int i = 0; i <= (length1 -length2); i++){
+        
+        // מקרה גבול: אם המחרוזת הראשונה קצרה מהשנייה
+        if (length1 < length2) {
+            return false;
+        }
+
+        // הלולאות המקוננות לבדיקת הכלה
+        for (int i = 0; i <= (length1 - length2); i++) {
             int j = 0;
-            for (j = 0; j < length2; j++){
-                if(newstr1.charAt(i+j) != newstr2.charAt(j)){
-                break;
+            for (j = 0; j < length2; j++) {
+                if (newstr1.charAt(i + j) != newstr2.charAt(j)) {
+                    break;
                 }
             }
-            if(j==length2){
-                return true;
+            if (j == length2) {
+                return true; 
             }
         }
+        
         return false;
     }
 }
