@@ -1,6 +1,15 @@
 public class MyString {
     public static void main(String[] args) {
-        // ... קוד בדיקה מקומי
+        // קוד בדיקה מקומי לדוגמה - ודא שהוא מותאם לבדיקות שאתה מריץ
+        System.out.println("Testing 'lowerCase':");
+        System.out.println("UnHappy : " + lowerCase("UnHappy"));
+        System.out.println("Null test : " + lowerCase(null));
+
+        System.out.println("\nTesting 'contains':");
+        System.out.println("A vs B: " + contains("A", "B")); // false
+        System.out.println("Hello vs el: " + contains("Hello", "el")); // true
+        System.out.println("Empty vs Hello: " + contains("Hello", "")); // true (מקרה קצה)
+        System.out.println("Case Insensitive: " + contains("Hello", "lo")); // true
     }
 
     /** מחזיר את הגרסה באותיות קטנות של המחרוזת הנתונה. 
@@ -32,6 +41,7 @@ public class MyString {
     /** בודק אם str1 מכילה את str2 (בדיקה לא רגישה לאותיות). */
     public static boolean contains(String str1, String str2) {
         
+        // יצירת גרסאות באותיות קטנות לטובת בדיקה לא רגישה לגודל אותיות
         String newstr1 = lowerCase(str1);
         String newstr2 = lowerCase(str2);
         
@@ -42,7 +52,7 @@ public class MyString {
         int length1 = newstr1.length();
         int length2 = newstr2.length();
         
-    
+        
         if (length2 == 0) {
             return true;
         }
@@ -52,7 +62,7 @@ public class MyString {
             return false;
         }
 
-        // הלולאות המקוננות לבדיקת הכלה (לוגיקה זו תקינה)
+        // הלולאות המקוננות לבדיקת הכלה
         for (int i = 0; i <= (length1 - length2); i++) {
             int j = 0;
             for (j = 0; j < length2; j++) {
