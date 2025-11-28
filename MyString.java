@@ -32,11 +32,9 @@ public class MyString {
     /** בודק אם str1 מכילה את str2 (בדיקה לא רגישה לאותיות). */
     public static boolean contains(String str1, String str2) {
         
-        // יצירת גרסאות באותיות קטנות לטובת בדיקה לא רגישה לגודל אותיות
         String newstr1 = lowerCase(str1);
         String newstr2 = lowerCase(str2);
         
-        // הגנה מפני קלט null לאחר ההמרה (אם lowerCase החזיר null)
         if (newstr1 == null || newstr2 == null) {
             return false;
         }
@@ -44,12 +42,17 @@ public class MyString {
         int length1 = newstr1.length();
         int length2 = newstr2.length();
         
+    
+        if (length2 == 0) {
+            return true;
+        }
+        
         // מקרה גבול: אם המחרוזת הראשונה קצרה מהשנייה
         if (length1 < length2) {
             return false;
         }
 
-        // הלולאות המקוננות לבדיקת הכלה
+        // הלולאות המקוננות לבדיקת הכלה (לוגיקה זו תקינה)
         for (int i = 0; i <= (length1 - length2); i++) {
             int j = 0;
             for (j = 0; j < length2; j++) {
